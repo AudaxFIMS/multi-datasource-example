@@ -1,0 +1,35 @@
+services:
+  db2:
+    container_name: db2
+    image: ibmcom/db2
+    privileged: true
+    restart: always
+    ports:
+      - 50000:50000
+    environment:
+      - LICENSE=accept
+      - DB2INSTANCE=devadmin
+      - DB2INST1_PASSWORD=devpass
+      - DBNAME=devdata
+      - SAMPLEDB=true
+    volumes:
+      - db2-data:/var/lib/db2/data/devdata
+
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    privileged: true
+    restart: always
+    environment:
+      - POSTGRES_USER=devadmin
+      - POSTGRES_PASSWORD=devpass
+      - POSTGRES_DB=devdata
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data/devdata
+
+volumes:
+  db2-data:
+  postgresql-data:

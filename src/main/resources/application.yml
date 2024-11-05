@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: multi-datasource
+  # Enable virtual threading
+  threads.virtual.enabled: true
+  # data sources and liquibase settings
+  datasource1:
+    datasource:
+      driver-class-name: com.ibm.db2.jcc.DB2Driver
+      jdbc-url: jdbc:db2://localhost:50000/devdata
+      username: devadmin
+      password: devpass
+      type: com.zaxxer.hikari.HikariDataSource
+    liquibase:
+      driver-class-name: com.ibm.db2.jcc.DB2Driver
+      jdbc-url: jdbc:db2://localhost:50000/devdata
+      username: devadmin
+      password: devpass
+      change-log: classpath:db/changelog/datasource1/changelog-master.xml
+      enabled: true
+    jpa:
+      database-platform: org.hibernate.dialect.DB2iDialect
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+          globally_quoted_identifiers: true
+          globally_quoted_identifiers_skip_column_definitions: false
+  datasource2:
+    datasource:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/devdata
+      username: devadmin
+      password: devpass
+      type: org.postgresql.ds.PGSimpleDataSource
+    liquibase:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/devdata
+      username: devadmin
+      password: devpass
+      change-log: classpath:db/changelog/datasource2/changelog-master.xml
+      enabled: true
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
